@@ -15,7 +15,7 @@
             <v-icon>mdi-contact-mail</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Contact</v-list-item-title>
+            <v-list-item-title>About</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
@@ -44,7 +44,7 @@
       </v-container>
     </v-content>
     <v-footer app>
-      <span class="white--text">&copy; 2019</span>
+      <span>&copy; 2019</span>
     </v-footer>
   </v-app>
 </template>
