@@ -1,23 +1,22 @@
 <template>
   <div>
     <h1>Select Your Pokemon</h1>
-    <h1 v-if="pokemonLoading">Loading...</h1>
+    <h3 v-if="pokemonLoading">Loading...</h3>
     <template v-else>
       <v-autocomplete
         label="Search for a Pokemon"
         :items="allPokemonNames"
-        :filter="activeFilter"
         filled
         rounded
         no-data-text="No Pokemon found"
         @change="handleSearchChange"
       ></v-autocomplete>
-      <carousel-3d ref="pokeCarousel" width="250">
+      <carousel-3d ref="pokeCarousel" height="350" width="250">
         <template v-for="(p, i) in allPokemon">
-          <slide class="slide" :key="p.id" :index="i">
-            <h2>
+          <slide class="pokemon-card" :key="p.id" :index="i">
+            <h4>
               {{ capitalize(p.name) }}
-            </h2>
+            </h4>
             <img
               class="poke-image"
               :src="p.sprites['front_default']"
@@ -37,20 +36,7 @@ export default {
   name: "SelectPokemon",
   data() {
     return {
-      search: null,
-      filters: [
-        {
-          value: 0,
-          fn: (item, queryText) => item.indexOf(queryText) > -1,
-          text: "Exact Match"
-        },
-        {
-          value: 1,
-          fn: (item, queryText) =>
-            queryText.length > 2 && item.toLowerCase().indexOf(queryText) > -1,
-          text: "Search Length > 2 & Loose Match"
-        }
-      ]
+      search: null
     };
   },
   components: {
@@ -58,11 +44,7 @@ export default {
     Carousel3d
   },
   computed: {
-    ...mapGetters(["allPokemon", "allPokemonNames", "pokemonLoading"]),
-    activeFilter() {
-      if (this.search == null) return undefined;
-      return this.filters[this.model].fn;
-    }
+    ...mapGetters(["allPokemon", "allPokemonNames", "pokemonLoading"])
   },
   methods: {
     ...mapActions(["fetchAllPokemon"]),
@@ -87,4 +69,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.pokemon-card {
+  border-radius: 5px;
+  border: 10px solid#FFCB05 !important; /* have to use important to avoid library problems */
+  background-color: #e7ba77;
+}
+</style>
