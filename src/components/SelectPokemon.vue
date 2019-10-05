@@ -1,9 +1,11 @@
 <template>
   <div>
     <h1>Select Your Pokemon</h1>
-    <template v-for="p in allPokemon">
+    <div v-for="p in allPokemon" :key="p.id">
       {{ p.id }}
-    </template>
+      {{ p.name }}
+      <img :src="p.sprites['front_default']" :alt="p.name" />
+    </div>
   </div>
 </template>
 
