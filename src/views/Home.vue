@@ -1,13 +1,13 @@
 <template>
-  <HelloWorld />
+  <SelectPokemon />
 </template>
 
 <script>
-import HelloWorld from '../components/HelloWorld';
+import SelectPokemon from "../components/SelectPokemon";
 
 export default {
   components: {
-    HelloWorld,
-  },
+    SelectPokemon
+  }
 };
 </script>
