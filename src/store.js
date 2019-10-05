@@ -5,16 +5,18 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    pokemon: []
+    pokemon: [],
+    types: {}
   },
   getters: {
-    allPokemon: state => state.pokemon
+    allPokemon: state => state.pokemon,
+    allTypes: state => state.types
   },
   actions: {
     async fetchAllPokemon({ commit }) {
       const { data } = await axios.get(
         // 151 - all gen1
-        "https://pokeapi.co/api/v2/pokemon/?limit=3"
+        "https://pokeapi.co/api/v2/pokemon/?limit=5"
       );
 
       // get all the info for all 151 pokemon
@@ -25,12 +27,25 @@ export default new Vuex.Store({
       // map over all the pokemon and only retain the data for each pokemon, throw away header info etc
       const allPokemon = pokemonData.map(({ data }) => data);
 
-      console.log(allPokemon);
+      const allTypes = {};
 
+      allPokemon.forEach(({ types }) => {
+        for (const { type } of types) {
+          allTypes[type.name] = type.url;
+        }
+      });
+
+      const t = await axios.get("https://pokeapi.co/api/v2/type/4/");
+      console.log(t.data);
+
+      // maybe map over allTypes and get all type info later
+      console.log(allPokemon);
       commit("setAllPokemon", allPokemon);
+      commit("setAllTypes", allTypes);
     }
   },
   mutations: {
-    setAllPokemon: (state, pokemon) => (state.pokemon = pokemon)
+    setAllPokemon: (state, pokemon) => (state.pokemon = pokemon),
+    setAllTypes: (state, types) => (state.types = types)
   }
 });
