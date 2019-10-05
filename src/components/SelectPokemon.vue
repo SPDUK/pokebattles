@@ -1,30 +1,32 @@
 <template>
   <div>
     <h1>Select Your Pokemon</h1>
-
-    <v-autocomplete
-      label="Search for a Pokemon"
-      :items="allPokemonNames"
-      :filter="activeFilter"
-      filled
-      rounded
-      no-data-text="No Pokemon found"
-      @change="handleSearchChange"
-    ></v-autocomplete>
-    <carousel-3d ref="pokeCarousel" width="250">
-      <template v-for="(p, i) in allPokemon">
-        <slide class="slide" :key="p.id" :index="i">
-          <h2>
-            {{ capitalize(p.name) }}
-          </h2>
-          <img
-            class="poke-image"
-            :src="p.sprites['front_default']"
-            :alt="p.name"
-          />
-        </slide>
-      </template>
-    </carousel-3d>
+    <h1 v-if="pokemonLoading">Loading...</h1>
+    <template v-else>
+      <v-autocomplete
+        label="Search for a Pokemon"
+        :items="allPokemonNames"
+        :filter="activeFilter"
+        filled
+        rounded
+        no-data-text="No Pokemon found"
+        @change="handleSearchChange"
+      ></v-autocomplete>
+      <carousel-3d ref="pokeCarousel" width="250">
+        <template v-for="(p, i) in allPokemon">
+          <slide class="slide" :key="p.id" :index="i">
+            <h2>
+              {{ capitalize(p.name) }}
+            </h2>
+            <img
+              class="poke-image"
+              :src="p.sprites['front_default']"
+              :alt="p.name"
+            />
+          </slide>
+        </template>
+      </carousel-3d>
+    </template>
   </div>
 </template>
 
@@ -56,7 +58,7 @@ export default {
     Carousel3d
   },
   computed: {
-    ...mapGetters(["allPokemon", "allPokemonNames", "findPokemonByName"]),
+    ...mapGetters(["allPokemon", "allPokemonNames", "pokemonLoading"]),
     activeFilter() {
       if (this.search == null) return undefined;
       return this.filters[this.model].fn;
