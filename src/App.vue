@@ -20,7 +20,7 @@
         </v-list-item>
         <v-list-item>
           <v-switch
-            inset="true"
+            inset
             v-model="$vuetify.theme.dark"
             @change="saveDarkModeToLS"
             :label="`Dark Mode`"
