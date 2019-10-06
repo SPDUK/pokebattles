@@ -29,10 +29,10 @@
               Length: {{ getHeight(p.height) }}, Weight:
               {{ getWeight(p.weight) }}.
             </div>
-            <div v-for="n in 4">
+            <div v-for="n in p.moves.slice(0, 4).length" :key="n">
               <span class="pokemon-ability">
                 <span class="pokemon-ability-icon"></span>
-                {{ p.moves[n - 1].move.name }}
+                {{ getMove(p.moves[n - 1]) }}
               </span>
             </div>
           </slide>
@@ -72,7 +72,6 @@ export default {
       const pokemonIdx = this.$store.state.pokemon.findIndex(
         p => p.name === pokemon
       );
-      console.log(pokemonIdx);
       this.$refs.pokeCarousel.goSlide(pokemonIdx);
     },
     getHeight(h) {
@@ -95,6 +94,10 @@ export default {
       const weight = decimals === "0" ? `${kgs}kg` : `${kgs}.${decimals}kg`;
 
       return weight;
+    },
+    getMove(move) {
+      if (move) return this.capitalize(move.move.name);
+      return "Attack";
     }
   },
   created() {
@@ -123,12 +126,10 @@ export default {
   background-color: #ffcb05;
   width: 90%;
   font-size: 0.625em;
-  margin: 3px auto;
+  margin: 3px auto 10px auto;
   text-align: center;
   font-weight: 600;
   font-style: italic;
-}
-.pokemon-ability {
 }
 .pokemon-ability-icon {
   display: inline-block;
