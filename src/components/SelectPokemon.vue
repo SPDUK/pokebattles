@@ -25,6 +25,10 @@
             >
               <img :src="p.sprites['front_default']" :alt="p.name" />
             </v-card>
+            <div class="pokemon-info">
+              Length: {{ getHeight(p.height) }}, Weight:
+              {{ getWeight(p.weight) }}.
+            </div>
           </slide>
         </template>
       </carousel-3d>
@@ -64,6 +68,27 @@ export default {
       );
       console.log(pokemonIdx);
       this.$refs.pokeCarousel.goSlide(pokemonIdx);
+    },
+    getHeight(h) {
+      if (h < 10) return `0.${h}m`;
+
+      return h
+        .toString()
+        .split("")
+        .join(".")
+        .concat("m");
+    },
+    getWeight(w) {
+      if (w < 10) return `0.${w}kg`;
+      const split = w.toString().split("");
+
+      // kgs is all but the last number
+      const kgs = split.slice(0, split.length - 1).join("");
+      // the decimal place is the last number, if it's 0 just return the kgs, else add the decimal place
+      const decimals = split[split.length - 1];
+      const weight = decimals === "0" ? `${kgs}kg` : `${kgs}.${decimals}kg`;
+
+      return weight;
     }
   },
   created() {
@@ -88,5 +113,11 @@ export default {
 .pokemon-image img {
   width: 200px;
   height: 150px;
+}
+.pokemon-info {
+  background-color: #ffcb05;
+  height: 10px;
+  width: 70%;
+  font-size: 0.8em;
 }
 </style>
