@@ -29,6 +29,12 @@
               Length: {{ getHeight(p.height) }}, Weight:
               {{ getWeight(p.weight) }}.
             </div>
+            <div v-for="n in 4">
+              <span class="pokemon-ability">
+                <span class="pokemon-ability-icon"></span>
+                {{ p.moves[n - 1].move.name }}
+              </span>
+            </div>
           </slide>
         </template>
       </carousel-3d>
@@ -121,5 +127,14 @@ export default {
   text-align: center;
   font-weight: 600;
   font-style: italic;
+}
+.pokemon-ability {
+}
+.pokemon-ability-icon {
+  display: inline-block;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background: gray;
 }
 </style>
