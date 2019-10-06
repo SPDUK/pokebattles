@@ -13,7 +13,12 @@
       ></v-autocomplete>
       <carousel-3d ref="pokeCarousel" height="350" width="250">
         <template v-for="(p, i) in allPokemon">
-          <slide class="pokemon-card" :key="p.id" :index="i">
+          <slide
+            class="pokemon-card"
+            :key="p.id"
+            :index="i"
+            :style="getBackgroundColor(p.types)"
+          >
             <h4>
               {{ capitalize(p.name) }}
             </h4>
@@ -98,6 +103,26 @@ export default {
     getMove(move) {
       if (move) return this.capitalize(move.move.name);
       return "Attack";
+    },
+    getBackgroundColor(types) {
+      // types: [{ type: { name: "grass" } }]
+
+      const basicTypes = {
+        fire: "red",
+        grass: "green",
+        water: "blue",
+        electric: "yellow",
+        normal: "gray",
+        psychic: "purple"
+      };
+
+      // check if type.name exists in hash
+      const validType = types.find(({ type }) => basicTypes[type.name]);
+      console.log(validType);
+
+      if (validType)
+        return { backgroundColor: basicTypes[validType.type.name] };
+      else console.log("invalid type", types);
     }
   },
   created() {
