@@ -17,11 +17,14 @@
             <h4>
               {{ capitalize(p.name) }}
             </h4>
-            <img
-              class="poke-image"
-              :src="p.sprites['front_default']"
-              :alt="p.name"
-            />
+            <v-card
+              :elevation="5"
+              width="200"
+              height="150"
+              class="pokemon-image"
+            >
+              <img :src="p.sprites['front_default']" :alt="p.name" />
+            </v-card>
           </slide>
         </template>
       </carousel-3d>
@@ -69,10 +72,21 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .pokemon-card {
   border-radius: 5px;
   border: 10px solid#FFCB05 !important; /* have to use important to avoid library problems */
   background-color: #e7ba77;
+  padding: 10px;
+  color: black;
+}
+.pokemon-image {
+  border: 3px solid #ffcb05;
+  display: flex;
+  justify-content: center;
+}
+.pokemon-image img {
+  width: 200px;
+  height: 150px;
 }
 </style>
