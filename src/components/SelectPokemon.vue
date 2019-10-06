@@ -19,7 +19,7 @@
             </h4>
             <v-card
               :elevation="5"
-              width="200"
+              width="100%"
               height="150"
               class="pokemon-image"
             >
@@ -102,13 +102,12 @@ export default {
   border-radius: 5px;
   border: 10px solid#FFCB05 !important; /* have to use important to avoid library problems */
   background-color: #e7ba77;
-  padding: 10px;
+  padding: 15px;
   color: black;
+  margin: 0 auto;
 }
 .pokemon-image {
   border: 3px solid #ffcb05;
-  display: flex;
-  justify-content: center;
 }
 .pokemon-image img {
   width: 200px;
@@ -116,8 +115,11 @@ export default {
 }
 .pokemon-info {
   background-color: #ffcb05;
-  height: 10px;
-  width: 70%;
-  font-size: 0.8em;
+  width: 90%;
+  font-size: 0.625em;
+  margin: 3px auto;
+  text-align: center;
+  font-weight: 600;
+  font-style: italic;
 }
 </style>
