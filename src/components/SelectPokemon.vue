@@ -113,16 +113,33 @@ export default {
         water: "blue",
         electric: "yellow",
         normal: "gray",
-        psychic: "purple"
+        psychic: "purple",
+        rock: "brown",
+        ice: "blue"
+      };
+      const secondaryTypes = {
+        fighting: "brown",
+        ground: "brown",
+        dragon: "white",
+        fairy: "pink",
+        poison: "purple",
+        bug: "green"
       };
 
       // check if type.name exists in hash
-      const validType = types.find(({ type }) => basicTypes[type.name]);
-      console.log(validType);
+      const validBasicType = types.find(({ type }) => basicTypes[type.name]);
 
-      if (validType)
-        return { backgroundColor: basicTypes[validType.type.name] };
-      else console.log("invalid type", types);
+      // split into if, if there is a basic type we want to use that (eg grass takes priority over poison)
+      if (validBasicType) {
+        return { backgroundColor: basicTypes[validBasicType.type.name] };
+      }
+
+      const validSecondaryType = types.find(
+        ({ type }) => secondaryTypes[type.name]
+      );
+      return {
+        backgroundColor: secondaryTypes[validSecondaryType.type.name]
+      };
     }
   },
   created() {

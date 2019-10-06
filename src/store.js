@@ -18,7 +18,7 @@ export default new Vuex.Store({
     async fetchAllPokemon({ commit }) {
       const { data } = await axios.get(
         // 151 - all gen1
-        "https://pokeapi.co/api/v2/pokemon/?limit=50"
+        "https://pokeapi.co/api/v2/pokemon/?limit=3"
       );
 
       // get all the info for all 151 pokemon
@@ -40,7 +40,7 @@ export default new Vuex.Store({
       // maybe map over allTypes and get all type info later
       // const t = await axios.get("https://pokeapi.co/api/v2/type/4/");
       // console.log(t.data);
-      console.log(allPokemon);
+      // console.log(allPokemon);
       commit("setAllPokemon", allPokemon);
       commit("setAllTypes", allTypes);
     }
