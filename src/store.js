@@ -30,7 +30,9 @@ export default new Vuex.Store({
 
       // map over all the pokemon and only retain the data for each pokemon, throw away header info etc
       const allPokemon = pokemonData.map(({ data }) => data);
+      // TODO: also capitalize names and moves here instead of calling it all the time
 
+      //TODO: also store all the pokemon in localstorage instead of making API requests every time
       const allTypes = {};
 
       allPokemon.forEach(({ types }) => {

@@ -43,7 +43,10 @@
           </slide>
         </template>
       </carousel-3d>
-      <v-btn @click="selectPokemon($refs.pokeCarousel.currentIndex)">
+      <v-btn
+        color="primary"
+        @click="selectPokemon($refs.pokeCarousel.currentIndex)"
+      >
         Select Pokemon
       </v-btn>
     </template>

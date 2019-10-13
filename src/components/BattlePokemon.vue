@@ -4,7 +4,7 @@
       <img :src="enemy.sprites['front_default']" :alt="enemy.name" />
       <div class="hpBarWrapper">
         <span>
-          {{ enemy.name }}
+          {{ capitalize(enemy.name) }}
         </span>
         <span>
           {{ enemyHp }}
@@ -20,7 +20,7 @@
       <img :src="pokemon.sprites['back_default']" :alt="pokemon.name" />
       <div class="hpBarWrapper">
         <span>
-          {{ pokemon.name }}
+          {{ capitalize(pokemon.name) }}
         </span>
         <span>
           {{ hp }}
