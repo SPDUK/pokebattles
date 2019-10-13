@@ -77,16 +77,25 @@ export default {
   justify-content: space-between;
   height: 75vh;
 }
+
+.enemy,
+.player {
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+}
 .enemy img,
 .player img {
   width: 200px;
   height: 200px;
 }
 .hpBarWrapper {
+  position: relative;
   display: flex;
   justify-content: space-between;
   background: rgba(43, 43, 43, 0.2);
   border: 2px solid rgb(43, 43, 43);
+  max-width: 350px;
 }
 .hpBarWrapper span {
   z-index: 20;
@@ -97,6 +106,7 @@ export default {
   position: absolute;
   height: 25px;
   z-index: 0;
-  max-width: 94.5%;
+
+  max-width: 346px;
 }
 </style>
