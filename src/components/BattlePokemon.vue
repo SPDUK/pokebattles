@@ -28,6 +28,14 @@
         <div :class="hpClass" class="hpBar" :style="{ width: `${hp}%` }"></div>
       </div>
     </div>
+    <div class="options">
+      <template v-for="n in 3">
+        <v-btn color="primary" :key="n">
+          {{ capitalize(pokemon.moves[n].move.name) }}
+        </v-btn>
+      </template>
+      <v-btn color="green">Heal</v-btn>
+    </div>
   </div>
 </template>
 
@@ -58,7 +66,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["fetchAllPokemon", "selectPokemon"])
+    ...mapActions(["fetchAllPokemon", "selectPokemon"]),
+    capitalize(name) {
+      return name[0].toUpperCase(0).concat(name.slice(1));
+    }
   },
   created() {
     this.pokemon = this.selectedPokemon;
@@ -76,6 +87,8 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   height: 75vh;
+  margin: 0 auto;
+  max-width: 350px;
 }
 
 .enemy,
@@ -86,8 +99,16 @@ export default {
 }
 .enemy img,
 .player img {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
+}
+
+@media (min-width: 800px) {
+  .enemy img,
+  .player img {
+    width: 200px;
+    height: 200px;
+  }
 }
 .hpBarWrapper {
   position: relative;
@@ -95,10 +116,9 @@ export default {
   justify-content: space-between;
   background: rgba(43, 43, 43, 0.2);
   border: 2px solid rgb(43, 43, 43);
-  max-width: 350px;
 }
 .hpBarWrapper span {
-  z-index: 20;
+  z-index: 2;
   padding: 0 10px;
 }
 
@@ -106,7 +126,18 @@ export default {
   position: absolute;
   height: 25px;
   z-index: 0;
-
   max-width: 346px;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.options button {
+  width: 48%;
+  height: 35px;
+  line-height: 35px;
+  margin: 4px 2px;
 }
 </style>
