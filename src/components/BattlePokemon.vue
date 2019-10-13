@@ -1,4 +1,4 @@
-<template>
+`<template>
   <div class="battle">
     <div class="enemy">
       <img :src="enemy.sprites['front_default']" :alt="enemy.name" />
@@ -30,11 +30,11 @@
     </div>
     <div class="options">
       <template v-for="n in 3">
-        <v-btn color="primary" :key="n">
+        <v-btn color="primary" :key="n" @click="attack">
           {{ capitalize(pokemon.moves[n].move.name) }}
         </v-btn>
       </template>
-      <v-btn color="green">Heal</v-btn>
+      <v-btn color="green" @click="heal">Heal</v-btn>
     </div>
   </div>
 </template>
@@ -47,36 +47,84 @@ export default {
   data() {
     return {
       pokemon: undefined,
-      hp: 75,
+      hp: 100,
       enemy: undefined,
       enemyHp: 100
     };
   },
   computed: {
-    ...mapGetters(["randomPokemon", "selectedPokemon"]),
+    ...mapGetters(["allPokemon", "selectedPokemon"]),
     hpClass() {
+      if (this.hp > 90) return "green";
       if (this.hp > 80) return "info";
       if (this.hp > 50) return "warning";
-      return "danger";
+      return "red";
     },
     enemyHpClass() {
+      if (this.enemyHp > 90) return "green";
       if (this.enemyHp > 80) return "info";
       if (this.enemyHp > 50) return "warning";
-      return "danger";
+      return "red";
     }
   },
   methods: {
-    ...mapActions(["fetchAllPokemon", "selectPokemon"]),
+    ...mapActions(["allPokemon", "selectPokemon"]),
+    attack() {
+      this.enemyHp -= this.randomDamage();
+
+      if (this.enemyHp <= 0) return this.resetData();
+
+      this.enemyMove();
+    },
+    heal() {
+      if (this.hp + 15 >= 100) this.hp = 100;
+      else {
+        this.hp += 15;
+      }
+
+      this.enemyMove();
+      if (this.hp <= 0) this.resetData();
+    },
+    enemyMove() {
+      if (this.enemyHp > 90) return this.enemyAttack();
+
+      if (this.enemyHp > 70) {
+        if (Math.random() > 0.8) return (this.enemyHp += 15);
+        return this.enemyAttack();
+      }
+      if (this.enemyHp > 40) {
+        if (Math.random() > 0.7) return (this.enemyHp += 15);
+        return this.enemyAttack();
+      }
+
+      if (Math.random() > 0.5) return (this.enemyHp += 15);
+      return this.enemyAttack();
+    },
+
+    enemyAttack() {
+      this.hp -= this.randomDamage();
+      if (this.hp < 0) this.resetData();
+    },
+    randomDamage() {
+      return 10 + Math.round(Math.random() * 15);
+    },
+    resetData() {
+      this.hp = 100;
+      this.enemyHp = 100;
+      this.enemy = this.randomPokemon();
+    },
     capitalize(name) {
       return name[0].toUpperCase(0).concat(name.slice(1));
+    },
+    randomPokemon() {
+      return this.allPokemon[
+        Math.floor(Math.random() * this.allPokemon.length)
+      ];
     }
   },
   created() {
     this.pokemon = this.selectedPokemon;
-    this.enemy = this.randomPokemon;
-
-    console.log(this.pokemon);
-    console.log(this.enemy);
+    this.resetData();
   }
 };
 </script>

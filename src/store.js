@@ -14,15 +14,13 @@ export default new Vuex.Store({
     allTypes: state => state.types,
     pokemonLoading: state => state.pokemon.length === 0,
     allPokemonNames: state => state.pokemon.map(({ name }) => name),
-    selectedPokemon: state => state.selectedPokemon,
-    randomPokemon: state =>
-      state.pokemon[Math.floor(Math.random() * state.pokemon.length)]
+    selectedPokemon: state => state.selectedPokemon
   },
   actions: {
     async fetchAllPokemon({ commit }) {
       const { data } = await axios.get(
         // 151 - all gen1
-        "https://pokeapi.co/api/v2/pokemon/?limit=10"
+        "https://pokeapi.co/api/v2/pokemon/?limit=151"
       );
 
       // get all the info for all 151 pokemon
