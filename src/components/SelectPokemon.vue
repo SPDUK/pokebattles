@@ -43,6 +43,9 @@
           </slide>
         </template>
       </carousel-3d>
+      <v-btn @click="selectPokemon($refs.pokeCarousel.currentIndex)">
+        Select Pokemon
+      </v-btn>
     </template>
   </div>
 </template>
@@ -65,12 +68,9 @@ export default {
     ...mapGetters(["allPokemon", "allPokemonNames", "pokemonLoading"])
   },
   methods: {
-    ...mapActions(["fetchAllPokemon"]),
+    ...mapActions(["fetchAllPokemon", "selectPokemon"]),
     capitalize(name) {
       return name[0].toUpperCase(0).concat(name.slice(1));
-    },
-    goToSlide(index) {
-      this.$refs.mycarousel.goSlide(index);
     },
     handleSearchChange(pokemon) {
       if (!pokemon) return;
