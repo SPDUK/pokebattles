@@ -158,7 +158,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .battle {
   display: flex;
   flex-direction: column;
