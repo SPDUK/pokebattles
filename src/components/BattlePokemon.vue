@@ -3,12 +3,8 @@
     <div class="enemy">
       <img :src="enemy.sprites['front_default']" :alt="enemy.name" />
       <div class="hpBarWrapper">
-        <span>
-          {{ capitalize(enemy.name) }}
-        </span>
-        <span>
-          {{ enemyHp }}
-        </span>
+        <span>{{ capitalize(enemy.name) }}</span>
+        <span>{{ enemyHp }}</span>
         <div
           :class="enemyHpClass"
           class="hpBar"
@@ -19,28 +15,31 @@
     <div class="player">
       <img :src="pokemon.sprites['back_default']" :alt="pokemon.name" />
       <div class="hpBarWrapper">
-        <span>
-          {{ capitalize(pokemon.name) }}
-        </span>
-        <span>
-          {{ hp }}
-        </span>
+        <span>{{ capitalize(pokemon.name) }}</span>
+        <span>{{ hp }}</span>
         <div :class="hpClass" class="hpBar" :style="{ width: `${hp}%` }"></div>
       </div>
     </div>
     <div class="options">
       <template v-for="n in 3">
-        <v-btn color="primary" :key="n" @click="attack">
-          {{ capitalize(pokemon.moves[n].move.name) }}
-        </v-btn>
+        <v-btn color="primary" :key="n" @click="attack">{{
+          capitalize(pokemon.moves[n].move.name)
+        }}</v-btn>
       </template>
       <v-btn color="green" @click="heal">Heal</v-btn>
+    </div>
+    <div class="log">
+      <div v-for="([first, second], i) in splitLogs" :key="i">
+        <span>{{ first }}</span>
+        <span>{{ second }}</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { splitEvery } from "ramda";
 
 export default {
   name: "BattlePokemon",
@@ -49,7 +48,8 @@ export default {
       pokemon: undefined,
       hp: 100,
       enemy: undefined,
-      enemyHp: 100
+      enemyHp: 100,
+      log: []
     };
   },
   computed: {
@@ -65,20 +65,29 @@ export default {
       if (this.enemyHp > 80) return "info";
       if (this.enemyHp > 50) return "warning";
       return "red";
+    },
+    splitLogs() {
+      return splitEvery(2, this.log);
     }
   },
   methods: {
-    ...mapActions(["allPokemon", "selectPokemon"]),
+    ...mapActions(["selectPokemon"]),
     attack() {
-      this.enemyHp -= this.randomDamage();
-
+      const dmg = this.randomDamage();
+      this.addActionToLog(
+        `${this.pokemon.name} dealt ${dmg} to ${this.enemy.name}`
+      );
+      this.enemyHp -= dmg;
       if (this.enemyHp <= 0) return this.resetData();
 
       this.enemyMove();
     },
     heal() {
-      if (this.hp + 15 >= 100) this.hp = 100;
-      else {
+      if (this.hp + 15 >= 100) {
+        this.addActionToLog(`${this.pokemon.name} healed to 100`);
+        this.hp = 100;
+      } else {
+        this.addActionToLog(`${this.pokemon.name} healed to ${this.hp + 15}`);
         this.hp += 15;
       }
 
@@ -89,26 +98,43 @@ export default {
       if (this.enemyHp > 90) return this.enemyAttack();
 
       if (this.enemyHp > 70) {
-        if (Math.random() > 0.8) return (this.enemyHp += 15);
+        if (Math.random() > 0.8) return this.enemyHeal();
         return this.enemyAttack();
       }
       if (this.enemyHp > 40) {
-        if (Math.random() > 0.7) return (this.enemyHp += 15);
+        if (Math.random() > 0.7) return this.enemyHeal();
         return this.enemyAttack();
       }
 
-      if (Math.random() > 0.5) return (this.enemyHp += 15);
+      if (Math.random() > 0.5) return this.enemyHeal();
       return this.enemyAttack();
     },
 
     enemyAttack() {
-      this.hp -= this.randomDamage();
+      const dmg = this.randomDamage();
+      this.addActionToLog(
+        `${this.enemy.name} dealt ${dmg} to ${this.pokemon.name}`
+      );
+      this.hp -= dmg;
       if (this.hp < 0) this.resetData();
+    },
+    enemyHeal() {
+      if (this.enemyHp + 15 >= 100) {
+        this.addActionToLog(`${this.enemy.name} healed to 100`);
+        this.enemyHp = 100;
+      } else {
+        this.addActionToLog(
+          `${this.enemy.name} healed to ${this.enemyHp + 15}`
+        );
+        this.enemyHp += 15;
+      }
     },
     randomDamage() {
       return 10 + Math.round(Math.random() * 15);
     },
     resetData() {
+      if (this.hp <= 0) this.addActionToLog("You Lost!");
+      if (this.enemyHp <= 0) this.addActionToLog("You Won!");
       this.hp = 100;
       this.enemyHp = 100;
       this.enemy = this.randomPokemon();
@@ -120,6 +146,9 @@ export default {
       return this.allPokemon[
         Math.floor(Math.random() * this.allPokemon.length)
       ];
+    },
+    addActionToLog(info) {
+      this.log.unshift(info);
     }
   },
   created() {
@@ -134,7 +163,6 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 75vh;
   margin: 0 auto;
   max-width: 350px;
 }
@@ -151,13 +179,6 @@ export default {
   height: 150px;
 }
 
-@media (min-width: 800px) {
-  .enemy img,
-  .player img {
-    width: 200px;
-    height: 200px;
-  }
-}
 .hpBarWrapper {
   position: relative;
   display: flex;
@@ -187,5 +208,19 @@ export default {
   height: 35px;
   line-height: 35px;
   margin: 4px 2px;
+}
+
+.log {
+  overflow-y: scroll;
+  margin-top: 20px;
+  height: 165px;
+  background: rgb(82, 82, 82);
+  color: white;
+}
+.log div {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid rgb(32, 32, 32);
+  margin-bottom: 10px;
 }
 </style>
