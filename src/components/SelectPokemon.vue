@@ -1,9 +1,10 @@
 <template>
   <div>
-    <h1>Select Your Pokemon</h1>
-    <h3 v-if="pokemonLoading">Loading...</h3>
+    <h1 v-if="!pokemonLoading">Select Your Pokemon</h1>
+    <loading-spinner v-if="pokemonLoading"></loading-spinner>
     <template v-else>
       <v-autocomplete
+        class="search-bar"
         label="Search for a Pokemon"
         :items="allPokemonNames"
         filled
@@ -56,6 +57,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import { Carousel3d, Slide } from "vue-carousel-3d";
+import LoadingSpinner from "./LoadingSpinner";
 export default {
   name: "SelectPokemon",
   data() {
@@ -65,7 +67,8 @@ export default {
   },
   components: {
     Slide,
-    Carousel3d
+    Carousel3d,
+    LoadingSpinner
   },
   computed: {
     ...mapGetters(["allPokemon", "allPokemonNames", "pokemonLoading"])
@@ -148,6 +151,10 @@ export default {
 </script>
 
 <style scoped>
+.search-bar {
+  margin: 0 auto !important;
+  max-width: 400px !important;
+}
 .pokemon-card {
   border-radius: 5px;
   border: 10px solid#FFCB05 !important; /* have to use important to avoid library problems */
