@@ -27,7 +27,7 @@
           color="primary"
           :key="n"
           @click="attack"
-          >{{ pokemon.moves[n].move.name }}</v-btn
+          >{{ pokemon.moves[n].name }}</v-btn
         >
         <v-btn v-else color="primary" :key="n" @click="attack">
           Attack
