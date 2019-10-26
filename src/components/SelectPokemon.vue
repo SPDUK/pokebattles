@@ -111,22 +111,22 @@ export default {
       // types: [{ type: { name: "grass" } }]
 
       const basicTypes = {
-        fire: "red",
-        grass: "green",
-        water: "blue",
-        electric: "yellow",
-        normal: "gray",
-        psychic: "purple",
-        rock: "brown",
-        ice: "blue"
+        fire: "#e6374b",
+        grass: "#6cf569",
+        water: "#69a3f5",
+        electric: "#e9f268",
+        normal: "#cccccc",
+        psychic: "#e164e8",
+        rock: "#804c2a",
+        ice: "#61faf2"
       };
       const secondaryTypes = {
-        fighting: "brown",
-        ground: "brown",
-        dragon: "white",
-        fairy: "pink",
-        poison: "purple",
-        bug: "green"
+        fighting: "#804c2a",
+        ground: "#804c2a",
+        dragon: "#f5ebf1",
+        fairy: "#f2cee3",
+        poison: "#e08ff2",
+        bug: "#8be098"
       };
 
       // check if type.name exists in hash

@@ -10,13 +10,9 @@ Roadmap:
 - Search while selecting a pokemon card ✔️
 - 3D Carousel to select a pokemon card ✔️
 - Pokemon cards look similar to a real card
-- Users can select a pokemon and battle another pokemon (Basic attacks)
+- Users can select a pokemon and battle another pokemon (Basic attacks) ✔️
+- Some kind of "AI" that does more than attack ✔️ (kind of)
 - Types and weaknesses/strengths work correctly
-- Some kind of "AI" that does more than attack
-- Winning a battle gives rewards into an inventory
-  Users can use items to heal etc
-
-Maybe: leaderboard + idle game stuff, catch pokemon, anti-cheat, persistent user data (sign in)
 
 ## Project setup
 
