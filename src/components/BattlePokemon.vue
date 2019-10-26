@@ -22,9 +22,16 @@
     </div>
     <div class="options">
       <template v-for="n in 3">
-        <v-btn color="primary" :key="n" @click="attack">{{
-          capitalize(pokemon.moves[n].move.name)
-        }}</v-btn>
+        <v-btn
+          v-if="pokemon.moves[n]"
+          color="primary"
+          :key="n"
+          @click="attack"
+          >{{ capitalize(pokemon.moves[n].move.name) }}</v-btn
+        >
+        <v-btn v-else color="primary" :key="n" @click="attack">
+          Attack
+        </v-btn>
       </template>
       <v-btn color="green" @click="heal">Heal</v-btn>
     </div>
@@ -75,7 +82,7 @@ export default {
     attack() {
       const dmg = this.randomDamage();
       this.addActionToLog(
-        `${this.pokemon.name} dealt ${dmg} to ${this.enemy.name}`
+        `${this.pokemon.name} dealt ${dmg} dmg to ${this.enemy.name}`
       );
       this.enemyHp -= dmg;
       if (this.enemyHp <= 0) return this.resetData();
@@ -113,7 +120,7 @@ export default {
     enemyAttack() {
       const dmg = this.randomDamage();
       this.addActionToLog(
-        `${this.enemy.name} dealt ${dmg} to ${this.pokemon.name}`
+        `${this.enemy.name} dealt ${dmg} dmg to ${this.pokemon.name}`
       );
       this.hp -= dmg;
       if (this.hp < 0) this.resetData();
