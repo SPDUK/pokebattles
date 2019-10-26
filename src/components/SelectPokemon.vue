@@ -162,6 +162,7 @@ export default {
 }
 .pokemon-image {
   border: 3px solid #ffcb05;
+  background: rgba(255, 255, 255, 0.3) !important;
 }
 .pokemon-image img {
   width: 200px;
@@ -181,6 +182,6 @@ export default {
   height: 10px;
   width: 10px;
   border-radius: 50%;
-  background: gray;
+  background: rgba(0, 0, 0, 0.2);
 }
 </style>
