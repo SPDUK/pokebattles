@@ -28,11 +28,19 @@ export default new Vuex.Store({
         data.results.map(({ url }) => axios.get(url))
       );
 
+      const capitalize = name => name[0].toUpperCase(0).concat(name.slice(1));
       // map over all the pokemon and only retain the data for each pokemon, throw away header info etc
-      const allPokemon = pokemonData.map(({ data }) => data);
-      // TODO: also capitalize names and moves here instead of calling it all the time
+      const allPokemon = pokemonData.map(({ data }) => {
+        return {
+          ...data,
+          name: capitalize(data.name),
+          moves: data.moves.map(({ move }) => ({
+            ...move,
+            name: capitalize(move.name)
+          }))
+        };
+      });
 
-      //TODO: also store all the pokemon in localstorage instead of making API requests every time
       const allTypes = {};
 
       allPokemon.forEach(({ types }) => {
@@ -41,10 +49,8 @@ export default new Vuex.Store({
         }
       });
 
-      // maybe map over allTypes and get all type info later
-      // const t = await axios.get("https://pokeapi.co/api/v2/type/4/");
-      // console.log(t.data);
-      // console.log(allPokemon);
+      // can't place into localStorage because the response is too big :(
+
       commit("setAllPokemon", allPokemon);
       commit("setAllTypes", allTypes);
     },

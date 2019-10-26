@@ -20,7 +20,7 @@
             :style="getBackgroundColor(p.types)"
           >
             <h4>
-              {{ capitalize(p.name) }}
+              {{ p.name }}
             </h4>
             <v-card
               :elevation="5"
@@ -72,9 +72,6 @@ export default {
   },
   methods: {
     ...mapActions(["fetchAllPokemon", "selectPokemon"]),
-    capitalize(name) {
-      return name[0].toUpperCase(0).concat(name.slice(1));
-    },
     handleSearchChange(pokemon) {
       if (!pokemon) return;
       const pokemonIdx = this.$store.state.pokemon.findIndex(
@@ -104,8 +101,7 @@ export default {
       return weight;
     },
     getMove(move) {
-      if (move) return this.capitalize(move.move.name);
-      return "Attack";
+      return move.name || "Attack";
     },
     getBackgroundColor(types) {
       // types: [{ type: { name: "grass" } }]

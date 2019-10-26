@@ -3,7 +3,7 @@
     <div class="enemy">
       <img :src="enemy.sprites['front_default']" :alt="enemy.name" />
       <div class="hpBarWrapper">
-        <span>{{ capitalize(enemy.name) }}</span>
+        <span>{{ enemy.name }}</span>
         <span>{{ enemyHp }}</span>
         <div
           :class="enemyHpClass"
@@ -15,7 +15,7 @@
     <div class="player">
       <img :src="pokemon.sprites['back_default']" :alt="pokemon.name" />
       <div class="hpBarWrapper">
-        <span>{{ capitalize(pokemon.name) }}</span>
+        <span>{{ pokemon.name }}</span>
         <span>{{ hp }}</span>
         <div :class="hpClass" class="hpBar" :style="{ width: `${hp}%` }"></div>
       </div>
@@ -27,7 +27,7 @@
           color="primary"
           :key="n"
           @click="attack"
-          >{{ capitalize(pokemon.moves[n].move.name) }}</v-btn
+          >{{ pokemon.moves[n].move.name }}</v-btn
         >
         <v-btn v-else color="primary" :key="n" @click="attack">
           Attack
@@ -145,9 +145,6 @@ export default {
       this.hp = 100;
       this.enemyHp = 100;
       this.enemy = this.randomPokemon();
-    },
-    capitalize(name) {
-      return name[0].toUpperCase(0).concat(name.slice(1));
     },
     randomPokemon() {
       return this.allPokemon[
